@@ -13,6 +13,8 @@ import (
 	"github.com/elastic/beats/metricbeat/module/kafka"
 
 	"github.com/Shopify/sarama"
+
+	"reflect"
 )
 
 // init registers the partition MetricSet with the central registry.
@@ -94,9 +96,17 @@ func (m *MetricSet) Fetch() ([]common.MapStr, error) {
 	}
 
 	events := []common.MapStr{}
+	b_reflect := reflect.ValueOf(*b)
+	incomingByteRate := b_reflect.FieldByName("incomingByteRate")
+	requestRate := b_reflect.FieldByName("requestRate")
+	
+	debugf("Broker related metrics: (incomingByteRate=%v, requestRate=%v)", incomingByteRate, requestRate )
+	
 	evtBroker := common.MapStr{
 		"id":      b.ID(),
 		"address": b.Addr(),
+		"incomingByteRate" : incomingByteRate,
+		"requestRate" : requestRate,
 	}
 
 	for _, topic := range topics {

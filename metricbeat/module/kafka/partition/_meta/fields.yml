@@ -59,7 +59,14 @@
       type: keyword
       description: >
         Topic name
-
+    - name: broker.incomingByteRate
+      type: scaled_float
+      description: >
+        Bytes/second read off all brokers
+    - name: broker.requestRate
+      type: scaled_float
+      description: >
+        Requests/second sent to all brokers
     - name: broker.id
       type: long
       description: >
